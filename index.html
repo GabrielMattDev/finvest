@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finvest — Login</title>
+  <link rel="stylesheet" href="css/login.css">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+<base target="_blank">
+</head>
+<body>
+  <div class="login-wrapper">
+    <div class="login-card">
+      <div class="login-brand">
+        <img src="assets/logo.png" alt="Finvest" class="login-logo">
+        <h1>finvest</h1>
+        <p>gestão financeira e investimentos</p>
+      </div>
+
+      <form id="login-form" class="login-form" onsubmit="return handleLogin(event)">
+        <div class="field-group">
+          <label for="username">usuário</label>
+          <input type="text" id="username" placeholder="digite seu usuário" autocomplete="username">
+        </div>
+        <div class="field-group">
+          <label for="password">senha</label>
+          <input type="password" id="password" placeholder="digite sua senha" autocomplete="current-password">
+        </div>
+        <div class="login-error" id="login-error">usuário ou senha incorretos</div>
+        <button type="submit" class="login-btn">entrar</button>
+      </form>
+
+      <div class="login-footer">
+        <span>v1.0.0 — Finvest</span>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/login.js"></script>
+</body>
+</html>
