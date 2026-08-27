@@ -3,21 +3,24 @@
 
 /* ===== VARIÁVEIS ===== */
 :root {
-  --fn-primary:    #0f2c59;
-  --fn-primary-2:  #0a3d2e;
-  --fn-accent:     #c9a227;
-  --fn-bg:         #0b1220;
-  --fn-card:       #111b2e;
-  --fn-card-2:     #162036;
-  --fn-border:     #1e2d4a;
+  --fn-bg:         #0b1a3a;
+  --fn-card:       #0d1f45;
+  --fn-card-2:     #112855;
+  --fn-border:     #1a3a6e;
+  --fn-border-2:   #224a8a;
   --fn-text:       #e8ecf1;
   --fn-text-2:     #94a3b8;
   --fn-text-3:     #64748b;
-  --fn-danger:     #ef4444;
-  --fn-success:    #22c55e;
-  --fn-radius:     12px;
-  --fn-radius-sm:  8px;
-  --fn-transition: 0.2s ease;
+  --fn-accent:     #c9a227;
+  --fn-green:      #22c55e;
+  --fn-red:        #ef4444;
+  --fn-blue:       #3b82f6;
+  --fn-purple:     #a855f7;
+  --fn-cyan:       #06b6d4;
+  --fn-orange:     #f97316;
+  --fn-radius:     16px;
+  --fn-radius-sm:  10px;
+  --fn-transition: 0.25s ease;
 }
 
 body {
@@ -28,10 +31,131 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: hidden;
+}
+
+/* ===== BACKGROUND ANIMATION ===== */
+.login-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Floating charts */
+.bg-chart {
+  position: absolute;
+  opacity: 0.06;
+  animation: floatChart 20s ease-in-out infinite;
+}
+
+.bg-chart:nth-child(1) { top: 8%;  left: 5%;  animation-delay: 0s;   transform: scale(1.2); }
+.bg-chart:nth-child(2) { top: 15%; right: 8%; animation-delay: -4s;  transform: scale(0.9); }
+.bg-chart:nth-child(3) { top: 55%; left: 3%;  animation-delay: -8s;  transform: scale(1.0); }
+.bg-chart:nth-child(4) { top: 65%; right: 5%; animation-delay: -12s; transform: scale(1.1); }
+.bg-chart:nth-child(5) { top: 35%; left: 12%; animation-delay: -6s;  transform: scale(0.8); }
+.bg-chart:nth-child(6) { top: 80%; left: 45%; animation-delay: -10s; transform: scale(1.3); }
+.bg-chart:nth-child(7) { top: 25%; right: 20%; animation-delay: -14s; transform: scale(0.7); }
+.bg-chart:nth-child(8) { top: 70%; right: 25%; animation-delay: -2s;  transform: scale(1.0); }
+
+@keyframes floatChart {
+  0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.05; }
+  25%      { transform: translateY(-20px) rotate(2deg); opacity: 0.08; }
+  50%      { transform: translateY(-10px) rotate(-1deg); opacity: 0.06; }
+  75%      { transform: translateY(-30px) rotate(1deg); opacity: 0.09; }
+}
+
+/* Floating metrics */
+.bg-metric {
+  position: absolute;
+  background: var(--fn-card-2);
+  border: 1px solid var(--fn-border);
+  border-radius: var(--fn-radius-sm);
+  padding: 12px 16px;
+  opacity: 0.12;
+  animation: floatMetric 18s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.bg-metric .bm-label {
+  font-size: 10px;
+  color: var(--fn-text-3);
+  text-transform: lowercase;
+  margin-bottom: 4px;
+}
+
+.bg-metric .bm-value {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--fn-text);
+  font-variant-numeric: tabular-nums;
+}
+
+.bg-metric .bm-change {
+  font-size: 11px;
+  margin-top: 3px;
+}
+
+.bg-metric:nth-child(9)  { top: 10%; left: 25%; animation-delay: 0s; }
+.bg-metric:nth-child(10) { top: 20%; right: 30%; animation-delay: -5s; }
+.bg-metric:nth-child(11) { top: 45%; left: 8%;  animation-delay: -10s; }
+.bg-metric:nth-child(12) { top: 60%; right: 12%; animation-delay: -3s; }
+.bg-metric:nth-child(13) { top: 75%; left: 30%; animation-delay: -7s; }
+.bg-metric:nth-child(14) { top: 30%; right: 8%;  animation-delay: -12s; }
+.bg-metric:nth-child(15) { top: 85%; right: 35%; animation-delay: -8s; }
+
+@keyframes floatMetric {
+  0%, 100% { transform: translateY(0) translateX(0); opacity: 0.10; }
+  25%      { transform: translateY(-15px) translateX(8px); opacity: 0.16; }
+  50%      { transform: translateY(-25px) translateX(-5px); opacity: 0.12; }
+  75%      { transform: translateY(-10px) translateX(10px); opacity: 0.18; }
+}
+
+/* Grid lines */
+.bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--fn-border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--fn-border) 1px, transparent 1px);
+  background-size: 80px 80px;
+  opacity: 0.08;
+}
+
+/* Glow orbs */
+.bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.15;
+  animation: pulseOrb 8s ease-in-out infinite;
+}
+
+.bg-orb.orb-1 { width: 300px; height: 300px; background: var(--fn-green); top: -50px; left: -50px; animation-delay: 0s; }
+.bg-orb.orb-2 { width: 250px; height: 250px; background: var(--fn-blue); bottom: -30px; right: -30px; animation-delay: -3s; }
+.bg-orb.orb-3 { width: 200px; height: 200px; background: var(--fn-accent); top: 40%; left: 60%; animation-delay: -5s; }
+
+@keyframes pulseOrb {
+  0%, 100% { transform: scale(1); opacity: 0.12; }
+  50%      { transform: scale(1.3); opacity: 0.20; }
+}
+
+/* Moving line chart (SVG background) */
+.bg-line-chart {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200px;
+  opacity: 0.08;
+  pointer-events: none;
 }
 
 /* ===== LOGIN WRAPPER ===== */
 .login-wrapper {
+  position: relative;
+  z-index: 10;
   width: 100%;
   max-width: 420px;
   padding: 20px;
@@ -41,8 +165,19 @@ body {
   background: var(--fn-card);
   border: 1px solid var(--fn-border);
   border-radius: var(--fn-radius);
-  padding: 40px 32px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+  padding: 40px 36px;
+  box-shadow: 0 25px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03);
+  position: relative;
+  overflow: hidden;
+}
+
+.login-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--fn-green), var(--fn-accent), var(--fn-blue));
+  opacity: 0.6;
 }
 
 /* ===== BRAND ===== */
@@ -52,16 +187,17 @@ body {
 }
 
 .login-logo {
-  width: 120px;
+  width: 100px;
   height: auto;
   margin-bottom: 16px;
   border-radius: var(--fn-radius-sm);
+  filter: drop-shadow(0 4px 20px rgba(0,0,0,0.4));
 }
 
 .login-brand h1 {
-  font-size: 28px;
-  font-weight: 600;
-  letter-spacing: 1px;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
   color: var(--fn-text);
   margin-bottom: 6px;
 }
@@ -70,14 +206,14 @@ body {
   font-size: 13px;
   color: var(--fn-text-2);
   text-transform: lowercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
 }
 
 /* ===== FORM ===== */
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 18px;
 }
 
 .field-group {
@@ -91,10 +227,11 @@ body {
   color: var(--fn-text-2);
   text-transform: lowercase;
   font-weight: 500;
+  letter-spacing: 0.3px;
 }
 
 .field-group input {
-  padding: 12px 14px;
+  padding: 13px 15px;
   border: 1px solid var(--fn-border);
   border-radius: var(--fn-radius-sm);
   background: var(--fn-card-2);
@@ -110,16 +247,17 @@ body {
 
 .field-group input:focus {
   border-color: var(--fn-accent);
-  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.15);
+  box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.12);
 }
 
 /* ===== ERROR ===== */
 .login-error {
   font-size: 13px;
-  color: var(--fn-danger);
+  color: var(--fn-red);
   text-align: center;
   display: none;
   padding: 4px 0;
+  font-weight: 500;
 }
 
 .login-error.show {
@@ -131,20 +269,35 @@ body {
   padding: 14px;
   border: none;
   border-radius: var(--fn-radius-sm);
-  background: linear-gradient(135deg, var(--fn-primary-2), var(--fn-primary));
+  background: linear-gradient(135deg, #0a3d2e, #0f2c59);
   color: #fff;
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   text-transform: lowercase;
   letter-spacing: 0.5px;
-  transition: transform var(--fn-transition), opacity var(--fn-transition);
+  transition: all var(--fn-transition);
   margin-top: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.login-btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+  opacity: 0;
+  transition: opacity var(--fn-transition);
 }
 
 .login-btn:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(10, 61, 46, 0.3);
+}
+
+.login-btn:hover::after {
+  opacity: 1;
 }
 
 .login-btn:active {
@@ -154,9 +307,10 @@ body {
 /* ===== FOOTER ===== */
 .login-footer {
   text-align: center;
-  margin-top: 24px;
+  margin-top: 28px;
   font-size: 11px;
   color: var(--fn-text-3);
+  letter-spacing: 0.5px;
 }
 
 /* ===== RESPONSIVE ===== */
@@ -165,6 +319,7 @@ body {
     padding: 28px 20px;
   }
   .login-logo {
-    width: 90px;
+    width: 80px;
   }
+  .bg-metric { display: none; }
 }
