@@ -1,12 +1,13 @@
+/* ===== LOGIN ===== */
 function handleLogin(e) {
   e.preventDefault();
   const username = document.getElementById('username').value.trim();
   const password = document.getElementById('password').value.trim();
   const errorEl = document.getElementById('login-error');
 
-  if (username === 'admin' && password === 'admin') {
-    localStorage.setItem('finvest_auth', 'true');
-    localStorage.setItem('finvest_user', username);
+  const session = FINVEST.login(username, password);
+
+  if (session) {
     window.location.href = 'dashboard.html';
   } else {
     errorEl.classList.add('show');
@@ -18,7 +19,7 @@ function handleLogin(e) {
 
 // Se já estiver logado, redireciona
 document.addEventListener('DOMContentLoaded', () => {
-  if (localStorage.getItem('finvest_auth') === 'true') {
+  if (FINVEST.isAuthenticated()) {
     window.location.href = 'dashboard.html';
   }
 });
