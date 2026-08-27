@@ -708,6 +708,148 @@ body {
 }
 
 @media (max-width: 600px) {
-  .sidebar { display: none; }
-  .main { margin-left: 0; }
+  /* mobile sidebar handled by JS */
+}
+
+/* ===== MOBILE MENU TOGGLE ===== */
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--fn-text);
+  cursor: pointer;
+  padding: 8px;
+  margin-right: 12px;
+  border-radius: 8px;
+  transition: background var(--fn-transition);
+}
+
+.mobile-menu-toggle:hover {
+  background: var(--fn-card-2);
+}
+
+.mobile-menu-toggle svg {
+  display: block;
+}
+
+/* Sidebar overlay */
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  z-index: 99;
+  backdrop-filter: blur(2px);
+}
+
+.sidebar-overlay.show {
+  display: block;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+  .charts-row { grid-template-columns: 1fr; }
+  .news-grid { grid-template-columns: repeat(2, 1fr); }
+  .news-card.featured { grid-column: span 2; }
+  .sim-layout { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+    width: 260px;
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .main {
+    margin-left: 0;
+    padding: 16px;
+  }
+
+  .topbar {
+    padding: 0 4px;
+  }
+
+  .kpi-grid { grid-template-columns: 1fr; }
+  .news-grid { grid-template-columns: 1fr; }
+  .news-card.featured { grid-column: span 1; flex-direction: column; }
+  .news-card.featured .news-img,
+  .news-card.featured .news-body { width: 100%; }
+
+  .page-title {
+    font-size: 16px;
+  }
+
+  .kpi-value {
+    font-size: 22px;
+  }
+
+  .chart-svg {
+    height: 180px;
+  }
+
+  .upload-zone {
+    padding: 24px 16px;
+  }
+
+  .sim-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .main {
+    padding: 12px;
+  }
+
+  .kpi-card {
+    padding: 14px;
+  }
+
+  .kpi-value {
+    font-size: 20px;
+  }
+
+  .panel-header {
+    padding: 12px 14px;
+  }
+
+  .data-table th,
+  .data-table td {
+    padding: 10px 12px;
+    font-size: 13px;
+  }
+
+  .news-title {
+    font-size: 14px;
+  }
+
+  .invest-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .invest-rate {
+    text-align: left;
+    width: 100%;
+    display: flex;
+    gap: 8px;
+    align-items: baseline;
+  }
+
+  .invest-rate-label {
+    display: inline;
+  }
 }

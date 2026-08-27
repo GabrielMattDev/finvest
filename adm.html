@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="stylesheet" href="css/adm.css">
   <link rel="icon" type="image/png" href="assets/logo.png">
+<base target="_blank">
 </head>
 <body>
   <div class="app">
@@ -33,6 +34,9 @@
 
     <main class="main">
       <header class="topbar">
+        <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Menu">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12H21M3 6H21M3 18H21"/></svg>
+        </button>
         <h2 class="page-title">administração</h2>
         <div class="topbar-actions">
           <span class="topbar-date" id="current-date"></span>
@@ -146,5 +150,6 @@
   <script src="js/auth.js"></script>
   <script src="js/sidebar.js"></script>
   <script src="js/adm.js"></script>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
 </body>
 </html>

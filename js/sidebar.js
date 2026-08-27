@@ -22,6 +22,7 @@
     const session = FINVEST.getSession();
     if (!session) return;
 
+    // Preencher dados do usuário
     const avatar = document.getElementById('user-avatar');
     const nameEl = document.getElementById('user-name');
     const profileEl = document.getElementById('user-profile');
@@ -33,6 +34,7 @@
     const badge = document.getElementById('profile-badge');
     if (badge) badge.textContent = FINVEST.getProfileLabel();
 
+    // Montar navegação
     const nav = document.getElementById('sidebar-nav');
     if (!nav) return;
 
@@ -49,10 +51,48 @@
 
     nav.innerHTML = html;
 
+    // Data no topbar
     const dateEl = document.getElementById('current-date');
     if (dateEl) {
       dateEl.textContent = new Date().toLocaleDateString('pt-BR', { day: '2-digit', month: 'long', year: 'numeric' });
     }
+
+    // Mobile menu toggle
+    initMobileMenu();
+  }
+
+  function initMobileMenu() {
+    const toggleBtn = document.getElementById('mobile-menu-toggle');
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+
+    if (!toggleBtn || !sidebar) return;
+
+    toggleBtn.addEventListener('click', () => {
+      sidebar.classList.toggle('open');
+      if (overlay) overlay.classList.toggle('show');
+      document.body.classList.toggle('sidebar-open');
+    });
+
+    if (overlay) {
+      overlay.addEventListener('click', () => {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('show');
+        document.body.classList.remove('sidebar-open');
+      });
+    }
+
+    // Fechar sidebar ao clicar em um link (mobile)
+    const navLinks = sidebar.querySelectorAll('.nav-item');
+    navLinks.forEach(link => {
+      link.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+          sidebar.classList.remove('open');
+          if (overlay) overlay.classList.remove('show');
+          document.body.classList.remove('sidebar-open');
+        }
+      });
+    });
   }
 
   if (document.readyState === 'loading') {
