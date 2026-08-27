@@ -194,3 +194,35 @@ tr:hover .row-actions {
   .adm-actions { flex-wrap: wrap; }
   .modal { max-width: 100%; }
 }
+
+/* ===== MÓDULOS CHECKBOXES ===== */
+.modules-check {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--fn-card-2);
+  border: 1px solid var(--fn-border);
+  border-radius: var(--fn-radius-sm);
+}
+
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--fn-text);
+  transition: color var(--fn-transition);
+}
+
+.check-row:hover {
+  color: var(--fn-accent);
+}
+
+.check-row input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--fn-accent);
+  cursor: pointer;
+}

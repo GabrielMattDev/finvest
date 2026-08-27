@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finvest — Gestão Financeira</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+<base target="_blank">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="assets/logo.png" alt="Finvest" class="sidebar-logo">
+        <span class="sidebar-title">finvest</span>
+      </div>
+      <nav class="sidebar-nav" id="sidebar-nav"></nav>
+      <div class="sidebar-footer">
+        <div class="user-pill">
+          <div class="user-avatar" id="user-avatar">A</div>
+          <div>
+            <div class="user-name" id="user-name">admin</div>
+            <div class="user-profile" id="user-profile">admin</div>
+          </div>
+        </div>
+        <button class="logout-btn" onclick="FINVEST.logout()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9"/><path d="M16 17L21 12L16 7"/><path d="M21 12H9"/></svg>
+          sair
+        </button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <h2 class="page-title">gestão financeira</h2>
+        <div class="topbar-actions">
+          <span class="profile-badge" id="profile-badge">admin</span>
+          <span class="topbar-date" id="current-date"></span>
+        </div>
+      </header>
+
+      <div class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-label">patrimônio total</div>
+          <div class="kpi-value">R$ 142.850,00</div>
+          <div class="kpi-change up">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M12 5L5 12M12 5L19 12"/></svg>
+            +12,4% este mês
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">receitas do mês</div>
+          <div class="kpi-value">R$ 8.420,00</div>
+          <div class="kpi-change up">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M12 5L5 12M12 5L19 12"/></svg>
+            +5,2% vs ago
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">despesas do mês</div>
+          <div class="kpi-value">R$ 3.180,00</div>
+          <div class="kpi-change down">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5V19M12 19L5 12M12 19L19 12"/></svg>
+            -8,1% vs ago
+          </div>
+        </div>
+        <div class="kpi-card">
+          <div class="kpi-label">investimentos</div>
+          <div class="kpi-value">R$ 38.200,00</div>
+          <div class="kpi-change up">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 19V5M12 5L5 12M12 5L19 12"/></svg>
+            +R$ 1.240,00
+          </div>
+        </div>
+      </div>
+
+      <div class="charts-row">
+        <div class="chart-card wide">
+          <div class="chart-header">
+            <span class="chart-title">evolução patrimonial (12 meses)</span>
+            <span class="chart-badge">atualizado</span>
+          </div>
+          <svg class="chart-svg" viewBox="0 0 500 220" id="chart-patrimony">
+            <defs>
+              <linearGradient id="grad1" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#22c55e" stop-opacity="0.25"/>
+                <stop offset="100%" stop-color="#22c55e" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <line x1="40" y1="190" x2="480" y2="190" stroke="#1e2d4a" stroke-width="1"/>
+            <line x1="40" y1="20" x2="40" y2="190" stroke="#1e2d4a" stroke-width="1"/>
+            <text x="30" y="195" text-anchor="end" fill="#64748b" font-size="10">100k</text>
+            <text x="30" y="145" text-anchor="end" fill="#64748b" font-size="10">120k</text>
+            <text x="30" y="95" text-anchor="end" fill="#64748b" font-size="10">140k</text>
+            <text x="30" y="45" text-anchor="end" fill="#64748b" font-size="10">160k</text>
+            <path id="area-path" fill="url(#grad1)" d=""/>
+            <path id="line-path" fill="none" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" d=""/>
+            <g id="chart-points"></g>
+          </svg>
+        </div>
+        <div class="chart-card">
+          <div class="chart-header">
+            <span class="chart-title">distribuição por categoria</span>
+          </div>
+          <svg class="chart-svg" viewBox="0 0 220 220" id="chart-donut">
+            <g transform="translate(110,110)"></g>
+            <text x="110" y="105" text-anchor="middle" fill="#e8ecf1" font-size="14" font-weight="500">8 categorias</text>
+            <text x="110" y="125" text-anchor="middle" fill="#64748b" font-size="11">de gastos</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-header">
+          <span class="panel-title">últimas transações</span>
+        </div>
+        <div class="table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr><th>data</th><th>descrição</th><th>categoria</th><th>valor</th><th>status</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>27/08</td><td>Salário mensal</td><td><span class="tag positive">receita</span></td><td class="pos">+R$ 7.500,00</td><td><span class="tag neutral">confirmado</span></td></tr>
+              <tr><td>26/08</td><td>Supermercado Extra</td><td><span class="tag neutral">alimentação</span></td><td class="neg">-R$ 420,30</td><td><span class="tag neutral">confirmado</span></td></tr>
+              <tr><td>25/08</td><td>Netflix assinatura</td><td><span class="tag neutral">entretenimento</span></td><td class="neg">-R$ 39,90</td><td><span class="tag neutral">confirmado</span></td></tr>
+              <tr><td>24/08</td><td>Freelance design</td><td><span class="tag positive">receita</span></td><td class="pos">+R$ 920,00</td><td><span class="tag neutral">confirmado</span></td></tr>
+              <tr><td>23/08</td><td>Posto de gasolina</td><td><span class="tag neutral">transporte</span></td><td class="neg">-R$ 180,00</td><td><span class="tag neutral">confirmado</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="upload-zone" id="excel-dropzone" onclick="document.getElementById('excel-input').click()">
+        <input type="file" id="excel-input" accept=".xlsx,.xls,.csv" style="display:none;" onchange="handleFileUpload(this)">
+        <div class="upload-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15V19C21 19.5304 20.7893 20.0391 20.4142 20.4142C20.0391 20.7893 19.5304 21 19 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V15"/><path d="M17 8L12 3L7 8"/><path d="M12 3V15"/></svg>
+        </div>
+        <div class="upload-text">clique ou arraste sua planilha excel aqui</div>
+        <div class="upload-hint">.xlsx, .xls ou .csv — os dados serão importados para os gráficos e cálculos</div>
+      </div>
+      <div class="upload-status" id="upload-status" style="display:none;"></div>
+    </main>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script src="js/sidebar.js"></script>
+  <script src="js/fin.js"></script>
+</body>
+</html>

@@ -11,15 +11,12 @@
 </head>
 <body>
   <div class="app">
-    <!-- SIDEBAR -->
     <aside class="sidebar">
       <div class="sidebar-brand">
         <img src="assets/logo.png" alt="Finvest" class="sidebar-logo">
         <span class="sidebar-title">finvest</span>
       </div>
-      <nav class="sidebar-nav" id="sidebar-nav">
-        <!-- Injetado via JS baseado nas permissões -->
-      </nav>
+      <nav class="sidebar-nav" id="sidebar-nav"></nav>
       <div class="sidebar-footer">
         <div class="user-pill">
           <div class="user-avatar" id="user-avatar">A</div>
@@ -35,7 +32,6 @@
       </div>
     </aside>
 
-    <!-- MAIN -->
     <main class="main">
       <header class="topbar">
         <h2 class="page-title">administração</h2>
@@ -44,19 +40,16 @@
         </div>
       </header>
 
-      <!-- GUARD: SOMENTE ADMIN -->
       <div id="admin-guard" style="display:none;">
         <div class="guard-box">
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--fn-red)" stroke-width="1.5"><path d="M12 2L2 7L12 12L22 7L12 2Z"/><path d="M2 17L12 22L22 17"/><path d="M2 12L12 17L22 12"/></svg>
           <h3>acesso restrito</h3>
           <p>este módulo é exclusivo para administradores.</p>
-          <button class="btn-primary" onclick="window.location.href='dashboard.html'" style="margin-top:16px;">voltar ao dashboard</button>
+          <button class="btn-primary" onclick="window.location.href='fin.html'" style="margin-top:16px;">voltar ao dashboard</button>
         </div>
       </div>
 
-      <!-- CONTEÚDO ADMIN -->
       <div id="admin-content">
-        <!-- Stats -->
         <div class="kpi-grid" style="grid-template-columns: repeat(4, 1fr);">
           <div class="kpi-card">
             <div class="kpi-label">total de usuários</div>
@@ -76,7 +69,6 @@
           </div>
         </div>
 
-        <!-- Ações -->
         <div class="adm-actions">
           <button class="btn-primary" onclick="openModal('add')">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5V19M5 12H19"/></svg>
@@ -84,7 +76,6 @@
           </button>
         </div>
 
-        <!-- Tabela de Usuários -->
         <div class="panel">
           <div class="panel-header">
             <span class="panel-title">usuários do sistema</span>
@@ -92,60 +83,9 @@
           <div class="table-wrap">
             <table class="data-table" id="users-table">
               <thead>
-                <tr>
-                  <th>usuário</th>
-                  <th>nome</th>
-                  <th>perfil</th>
-                  <th>módulos liberados</th>
-                  <th>ações</th>
-                </tr>
+                <tr><th>usuário</th><th>nome</th><th>perfil</th><th>módulos liberados</th><th>ações</th></tr>
               </thead>
-              <tbody id="users-tbody">
-                <!-- Injetado via JS -->
-              </tbody>
-            </table>
-          </div>
-        </div>
-
-        <!-- Matriz de Permissões -->
-        <div class="panel" style="margin-top: 20px;">
-          <div class="panel-header">
-            <span class="panel-title">matriz de permissões</span>
-          </div>
-          <div class="table-wrap">
-            <table class="data-table">
-              <thead>
-                <tr>
-                  <th>perfil</th>
-                  <th>gestão financeira (FIN)</th>
-                  <th>notícias (NEW)</th>
-                  <th>investimentos (INV)</th>
-                  <th>administração (ADM)</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td><span class="tag admin">admin</span></td>
-                  <td><span class="tag positive">✓ liberado</span></td>
-                  <td><span class="tag positive">✓ liberado</span></td>
-                  <td><span class="tag positive">✓ liberado</span></td>
-                  <td><span class="tag positive">✓ liberado</span></td>
-                </tr>
-                <tr>
-                  <td><span class="tag analista">analista</span></td>
-                  <td><span class="tag positive">✓ liberado</span></td>
-                  <td><span class="tag positive">✓ liberado</span></td>
-                  <td><span class="tag negative">✗ bloqueado</span></td>
-                  <td><span class="tag negative">✗ bloqueado</span></td>
-                </tr>
-                <tr>
-                  <td><span class="tag usuario">usuário</span></td>
-                  <td><span class="tag positive">✓ liberado</span></td>
-                  <td><span class="tag negative">✗ bloqueado</span></td>
-                  <td><span class="tag negative">✗ bloqueado</span></td>
-                  <td><span class="tag negative">✗ bloqueado</span></td>
-                </tr>
-              </tbody>
+              <tbody id="users-tbody"></tbody>
             </table>
           </div>
         </div>
@@ -153,7 +93,6 @@
     </main>
   </div>
 
-  <!-- MODAL: Adicionar/Editar Usuário -->
   <div class="modal-overlay" id="user-modal" style="display:none;">
     <div class="modal">
       <div class="modal-header">
@@ -177,12 +116,21 @@
           <input type="password" id="new-password" placeholder="mínimo 4 caracteres" required>
         </div>
         <div class="field-group">
-          <label>perfil</label>
-          <select id="new-profile" required>
+          <label>perfil base</label>
+          <select id="new-profile" required onchange="onProfileChange()">
             <option value="usuario">usuário — gestão financeira</option>
             <option value="analista">analista — gestão financeira + notícias</option>
             <option value="admin">admin — acesso total</option>
           </select>
+        </div>
+        <div class="field-group">
+          <label>módulos de acesso</label>
+          <div class="modules-check" id="modules-check">
+            <label class="check-row"><input type="checkbox" value="FIN" checked> <span>gestão financeira (FIN)</span></label>
+            <label class="check-row"><input type="checkbox" value="NEW"> <span>notícias (NEW)</span></label>
+            <label class="check-row"><input type="checkbox" value="INV"> <span>investimentos (INV)</span></label>
+            <label class="check-row"><input type="checkbox" value="ADM"> <span>administração (ADM)</span></label>
+          </div>
         </div>
         <div class="modal-preview" id="modal-preview">
           <span class="preview-label">módulos liberados:</span>
@@ -197,6 +145,7 @@
   </div>
 
   <script src="js/auth.js"></script>
+  <script src="js/sidebar.js"></script>
   <script src="js/adm.js"></script>
 </body>
 </html>

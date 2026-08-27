@@ -1,135 +1,108 @@
-/* ============================================================
-   FINVEST — Sistema de Autenticação e Permissões
-   ============================================================ */
+/* ===== FINVEST AUTH MODULE ===== */
+window.FINVEST = (function() {
+  'use strict';
 
-const MODULES = {
-  FIN: { code: 'FIN', name: 'gestão financeira', icon: 'chart' },
-  NEW: { code: 'NEW', name: 'notícias',          icon: 'news'  },
-  INV: { code: 'INV', name: 'investimentos',     icon: 'trend' },
-  ADM: { code: 'ADM', name: 'administração',     icon: 'gear'  }
-};
+  const STORAGE_KEY = 'finvest_users';
+  const SESSION_KEY = 'finvest_session';
 
-const PROFILES = {
-  admin:     { label: 'admin',     modules: ['FIN','NEW','INV','ADM'] },
-  analista:  { label: 'analista',  modules: ['FIN','NEW'] },
-  usuario:   { label: 'usuário',   modules: ['FIN'] }
-};
-
-// Usuários cadastrados (simulação — em produção virá do backend)
-const USERS_DB = {
-  admin:   { username: 'admin',   password: 'admin',   profile: 'admin',    name: 'Administrador' },
-  analista:{ username: 'analista',password: 'analista',profile: 'analista', name: 'Analista' },
-  usuario: { username: 'usuario', password: 'usuario', profile: 'usuario',  name: 'Usuário Padrão' }
-};
-
-/* ===== AUTH ===== */
-function login(username, password) {
-  const user = USERS_DB[username.toLowerCase()];
-  if (!user || user.password !== password) return null;
-
-  const session = {
-    username: user.username,
-    name: user.name,
-    profile: user.profile,
-    modules: PROFILES[user.profile].modules,
-    loginAt: new Date().toISOString()
+  const PROFILES = {
+    admin:    { label: 'administrador', modules: ['FIN','NEW','INV','ADM'] },
+    analista: { label: 'analista',      modules: ['FIN','NEW'] },
+    usuario:  { label: 'usuário',       modules: ['FIN'] }
   };
-  localStorage.setItem('finvest_session', JSON.stringify(session));
-  return session;
-}
 
-function logout() {
-  localStorage.removeItem('finvest_session');
-  window.location.href = 'index.html';
-}
-
-function getSession() {
-  const raw = localStorage.getItem('finvest_session');
-  return raw ? JSON.parse(raw) : null;
-}
-
-function isAuthenticated() {
-  return getSession() !== null;
-}
-
-function guardRoute() {
-  if (!isAuthenticated()) {
-    window.location.href = 'index.html';
-    return false;
-  }
-  return true;
-}
-
-/* ===== PERMISSIONS ===== */
-function hasModule(moduleCode) {
-  const session = getSession();
-  return session && session.modules.includes(moduleCode);
-}
-
-function isAdmin() {
-  const session = getSession();
-  return session && session.profile === 'admin';
-}
-
-function getAllowedModules() {
-  const session = getSession();
-  if (!session) return [];
-  return session.modules.map(code => MODULES[code]).filter(Boolean);
-}
-
-function getProfileLabel() {
-  const session = getSession();
-  return session ? PROFILES[session.profile].label : '';
-}
-
-/* ===== USER MANAGEMENT (Admin only) ===== */
-function getAllUsers() {
-  return Object.values(USERS_DB).map(u => ({
-    username: u.username,
-    name: u.name,
-    profile: u.profile,
-    modules: PROFILES[u.profile].modules
-  }));
-}
-
-function addUser(username, password, name, profile) {
-  if (!isAdmin()) return false;
-  if (USERS_DB[username.toLowerCase()]) return false;
-  if (!PROFILES[profile]) return false;
-
-  USERS_DB[username.toLowerCase()] = {
-    username: username.toLowerCase(),
-    password: password,
-    name: name,
-    profile: profile
+  const MODULE_NAMES = {
+    FIN: 'gestão financeira',
+    NEW: 'notícias',
+    INV: 'investimentos',
+    ADM: 'administração'
   };
-  return true;
-}
 
-function updateUser(username, updates) {
-  if (!isAdmin()) return false;
-  const user = USERS_DB[username.toLowerCase()];
-  if (!user) return false;
-
-  if (updates.password) user.password = updates.password;
-  if (updates.name) user.name = updates.name;
-  if (updates.profile && PROFILES[updates.profile]) {
-    user.profile = updates.profile;
+  function initUsers() {
+    if (!localStorage.getItem(STORAGE_KEY)) {
+      const defaultUsers = [
+        { username: 'admin',    password: 'admin',    name: 'Administrador', profile: 'admin',    modules: null },
+        { username: 'analista', password: 'analista', name: 'Analista',      profile: 'analista', modules: null },
+        { username: 'usuario',  password: 'usuario',  name: 'Usuário',       profile: 'usuario',  modules: null }
+      ];
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultUsers));
+    }
   }
-  return true;
-}
 
-function deleteUser(username) {
-  if (!isAdmin()) return false;
-  if (username.toLowerCase() === 'admin') return false; // protege admin master
-  delete USERS_DB[username.toLowerCase()];
-  return true;
-}
+  function getUsers() { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+  function saveUsers(users) { localStorage.setItem(STORAGE_KEY, JSON.stringify(users)); }
+  function setSession(s) { localStorage.setItem(SESSION_KEY, JSON.stringify(s)); }
+  function getSessionData() { const r = localStorage.getItem(SESSION_KEY); return r ? JSON.parse(r) : null; }
+  function clearSession() { localStorage.removeItem(SESSION_KEY); }
 
-/* ===== EXPORTS ===== */
-window.FINVEST = {
-  MODULES, PROFILES, USERS_DB,
-  login, logout, getSession, isAuthenticated, guardRoute,
-  hasModule, isAdmin, getAllowedModules, getProfileLabel,
-  getAllUsers, addUser, updateUser, deleteUser
-};
+  initUsers();
+
+  return {
+    PROFILES, MODULE_NAMES,
+
+    login(username, password) {
+      const users = getUsers();
+      const user = users.find(u => u.username === username && u.password === password);
+      if (!user) return null;
+      const modules = user.modules || PROFILES[user.profile].modules;
+      const session = { username: user.username, name: user.name, profile: user.profile, modules, timestamp: Date.now() };
+      setSession(session);
+      return session;
+    },
+
+    logout() { clearSession(); window.location.href = 'index.html'; },
+    isAuthenticated() { return !!getSessionData(); },
+    getSession() { return getSessionData(); },
+
+    guardRoute() {
+      if (!this.isAuthenticated()) { window.location.href = 'index.html'; return false; }
+      return true;
+    },
+
+    getAllowedModules() {
+      const session = getSessionData();
+      if (!session) return [];
+      return session.modules.map(code => ({ code, name: MODULE_NAMES[code] || code }));
+    },
+
+    getProfileLabel() {
+      const session = getSessionData();
+      return session ? (PROFILES[session.profile]?.label || session.profile) : '';
+    },
+
+    isAdmin() {
+      const session = getSessionData();
+      return session && session.profile === 'admin';
+    },
+
+    hasModule(code) {
+      const session = getSessionData();
+      return session ? session.modules.includes(code) : false;
+    },
+
+    getAllUsers() { return getUsers(); },
+
+    addUser(username, password, name, profile, customModules) {
+      const users = getUsers();
+      if (users.find(u => u.username === username)) return false;
+      users.push({ username, password, name, profile, modules: customModules || null });
+      saveUsers(users);
+      return true;
+    },
+
+    updateUser(username, updates) {
+      const users = getUsers();
+      const idx = users.findIndex(u => u.username === username);
+      if (idx === -1) return false;
+      users[idx] = { ...users[idx], ...updates };
+      saveUsers(users);
+      return true;
+    },
+
+    deleteUser(username) {
+      let users = getUsers();
+      users = users.filter(u => u.username !== username);
+      saveUsers(users);
+    }
+  };
+})();

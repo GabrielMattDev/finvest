@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finvest — Notícias</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/png" href="assets/logo.png">
+<base target="_blank">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <img src="assets/logo.png" alt="Finvest" class="sidebar-logo">
+        <span class="sidebar-title">finvest</span>
+      </div>
+      <nav class="sidebar-nav" id="sidebar-nav"></nav>
+      <div class="sidebar-footer">
+        <div class="user-pill">
+          <div class="user-avatar" id="user-avatar">A</div>
+          <div>
+            <div class="user-name" id="user-name">admin</div>
+            <div class="user-profile" id="user-profile">admin</div>
+          </div>
+        </div>
+        <button class="logout-btn" onclick="FINVEST.logout()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5C4.46957 21 3.96086 20.7893 3.58579 20.4142C3.21071 20.0391 3 19.5304 3 19V5C3 4.46957 3.21071 3.96086 3.58579 3.58579C3.96086 3.21071 4.46957 3 5 3H9"/><path d="M16 17L21 12L16 7"/><path d="M21 12H9"/></svg>
+          sair
+        </button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <h2 class="page-title">notícias do mercado</h2>
+        <div class="topbar-actions">
+          <span class="profile-badge" id="profile-badge">admin</span>
+          <span class="topbar-date" id="current-date"></span>
+        </div>
+      </header>
+
+      <div class="news-grid">
+        <div class="news-card featured">
+          <div class="news-img" style="background: linear-gradient(135deg, #0a3d2e 0%, #0f2c59 100%);">
+            <span>imagem destaque — mercado em alta</span>
+          </div>
+          <div class="news-body">
+            <div class="news-category">destaque do dia</div>
+            <div class="news-title">Ibovespa fecha em alta de 1,8% e supera os 135 mil pontos pela primeira vez no ano</div>
+            <div class="news-meta">
+              <span>27 ago 2026</span><span>•</span><span>8 min de leitura</span>
+            </div>
+          </div>
+        </div>
+        <div class="news-card">
+          <div class="news-img" style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);"><span>criptomoedas</span></div>
+          <div class="news-body">
+            <div class="news-category">cripto</div>
+            <div class="news-title">Bitcoin volta a romper os US$ 68 mil com fluxo positivo nos ETFs</div>
+            <div class="news-meta"><span>27 ago 2026</span><span>•</span><span>5 min</span></div>
+          </div>
+        </div>
+        <div class="news-card">
+          <div class="news-img" style="background: linear-gradient(135deg, #0d2b1e 0%, #0a3d2e 100%);"><span>selic</span></div>
+          <div class="news-body">
+            <div class="news-category">economia</div>
+            <div class="news-title">Mercado projeta queda de 0,50 p.p. na Selic na próxima reunião do Copom</div>
+            <div class="news-meta"><span>26 ago 2026</span><span>•</span><span>6 min</span></div>
+          </div>
+        </div>
+        <div class="news-card">
+          <div class="news-img" style="background: linear-gradient(135deg, #2e1a1a 0%, #3e1616 100%);"><span>inflação</span></div>
+          <div class="news-body">
+            <div class="news-category">indicadores</div>
+            <div class="news-title">IPCA-15 de agosto sobe 0,32% e fica acima das expectativas do mercado</div>
+            <div class="news-meta"><span>26 ago 2026</span><span>•</span><span>4 min</span></div>
+          </div>
+        </div>
+        <div class="news-card">
+          <div class="news-img" style="background: linear-gradient(135deg, #1e2e3a 0%, #16202e 100%);"><span>dólar</span></div>
+          <div class="news-body">
+            <div class="news-category">câmbio</div>
+            <div class="news-title">Dólar recua para R$ 5,02 com otimismo externo e fluxo de exportações</div>
+            <div class="news-meta"><span>25 ago 2026</span><span>•</span><span>3 min</span></div>
+          </div>
+        </div>
+        <div class="news-card">
+          <div class="news-img" style="background: linear-gradient(135deg, #2a1e3a 0%, #1e162e 100%);"><span>fundos</span></div>
+          <div class="news-body">
+            <div class="news-category">fundos de investimento</div>
+            <div class="news-title">Fundos multimercado lideram captações em agosto com R$ 4,2 bilhões</div>
+            <div class="news-meta"><span>25 ago 2026</span><span>•</span><span>7 min</span></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/auth.js"></script>
+  <script src="js/sidebar.js"></script>
+</body>
+</html>
